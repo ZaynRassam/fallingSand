@@ -52,7 +52,9 @@ function placeSand(){
     let extend = floor(matrix/2)
     for (let i = -extend; i < extend + matrix; i++){
       for (let j = -extend; j < extend + matrix; j++){
-        grid[selected_col + i][selected_row + j] = hueValue
+        if (grid[selected_col + i][selected_row + j] == 0){
+          grid[selected_col + i][selected_row + j] = hueValue
+        }
       }
     }
     hueChange(hueReset)
