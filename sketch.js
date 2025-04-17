@@ -29,7 +29,7 @@ const n_height = canvasHeight / w
 const backgroundColour = "black";
 var hueValue = getRandomInt(255)
 var hueValueMultiplier = 1
-var hueReset = 0
+var hueReset = 1
 var sandColour = [255,0,0];
 
 // grid[col][row]
@@ -45,7 +45,7 @@ function setup() {
 }
 
 function placeSand(){ 
-  if (mouseX < canvasWidth && mouseY < canvasHeight){
+  if (mouseX < canvasWidth - 10 && mouseX > 10 && mouseY < canvasHeight && mouseY > 10){
     const selected_row = ~~(mouseY / w)
     const selected_col = ~~(mouseX / w)
 
@@ -120,12 +120,13 @@ function colourGrid(grid){
     }
   }
 }
+
 function draw() {
   background(220);
   colorMode(HSB, 360,255,255)
   colourGrid(grid)
   grid = sandFall(grid, newGrid)
-  logElement.innerHTML = ~~hueValue.toString() + ", " + hueReset.toString() + ", " + mouseIsPressed
+  logElement.innerHTML = ~~hueValue.toString() + ", " + hueReset.toString() + ", " + mouseIsPressed + ", " + canvasWidth
 }
 
 const resetButton = document.getElementById("resetButton");

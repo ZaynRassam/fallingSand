@@ -17,3 +17,8 @@ button {
   margin-top: 20px;
   width: 20%;
 }
+
+.slidecontainer {
+  display: flex;
+  justify-content: center;
+}
