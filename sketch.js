@@ -29,7 +29,8 @@ var sandColour = [255,0,0];
 // grid[col][row]
 var grid = make2darray(n,n)
 grid = populateGrid(grid, 0)
-
+var newGrid = make2darray(n,n)
+newGrid = populateGrid(newGrid, 0)
 
 function setup() {
   const canvas = document.getElementById("myCanvas")
@@ -52,29 +53,36 @@ function mousePressed() {
   }
 }
 
-function sandFall(grid){
-  for (let i = 0; i < grid.length; i++){
-    if (i > n-1) {continue}
-    for (let j = 0; j < grid[i].length; j++){
+function sandFall(previousGrid, newGrid){
+  for (let i = 0; i < previousGrid.length; i++){
+    if (i < 1 || i > n-2) {continue}
+    for (let j = 0; j < previousGrid[i].length; j++){
       if (j > n-1) {continue}
-      if (grid[i][j] == 0) {continue}
-      if (grid[i][j+1] == 0){
-        grid[i][j] = 0;
-        grid[i][j+1] = 1
-      }
-      else if (grid[i+1][j+1] == 0 || grid[i-1][j+1] == 0) {
-        grid[i][j] = 0
-        let direction = choose([-1,1])
-        grid[i+direction][j+1] = 1
+      if (previousGrid[i][j] == 0) {continue}
+      if (newGrid[i][j+1] == 0){
+        newGrid[i][j] = 0
+        newGrid[i][j+1] = 1
+      } else if (previousGrid[i+1][j+1] == 0 && previousGrid[i-1][j+1] == 0) {
+          newGrid[i][j] = 0
+          let direction = choose([-1,1])
+          newGrid[i+direction][j+1] = 1
+      } else if (previousGrid[i+1][j+1] == 0) {
+          newGrid[i][j] = 0
+          newGrid[i+1][j+1] = 1
+      } else if (previousGrid[i-1][j+1] == 0) {
+          newGrid[i][j] = 0
+          newGrid[i-1][j+1] = 1
       }
     }
   }
+  return newGrid
 }
 
-function draw() {
-  background(220);
-  colorMode(RGB)
-  console.log(sandColour)
+function removeSand(){
+
+}
+
+function colourGrid(grid){
   for (let i = 0; i < grid.length; i++){
     for (let j = 0; j < grid[i].length; j++){
       if (grid[i][j] == 1) {
@@ -85,8 +93,12 @@ function draw() {
       square(i*w,j*w,w)
     }
   }
-
-  sandFall(grid)
+}
+function draw() {
+  background(220);
+  colorMode(RGB)
+  colourGrid(grid)
+  grid = sandFall(grid, newGrid)
 }
 
 const resetButton = document.getElementById("resetButton");
@@ -96,11 +108,9 @@ resetButton.addEventListener('click', () => {
   grid = populateGrid(grid, 0);
 });
 
-
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
-
 
 randomColourButton.addEventListener('click', () => {
   let r = getRandomInt(255)

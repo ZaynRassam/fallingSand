@@ -2,3 +2,4 @@
 libraries
 .DS_Store
 jsconfig.json
+.vscode/
