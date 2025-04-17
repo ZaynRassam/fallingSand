@@ -20,9 +20,12 @@ function populateGrid(grid, value){
   return grid 
 }
 
-const CANVAS = 600
-const n = 40
-const w = CANVAS/n
+var canvasHeight = 800
+var canvasWidth= 400
+var matrix = 3
+const w = 10
+const n_width = canvasWidth / w
+const n_height = canvasHeight / w
 const backgroundColour = "black";
 var hueValue = getRandomInt(255)
 var hueValueMultiplier = 1
@@ -30,22 +33,28 @@ var hueReset = 0
 var sandColour = [255,0,0];
 
 // grid[col][row]
-var grid = make2darray(n,n)
+var grid = make2darray(n_width, n_height)
 grid = populateGrid(grid, 0)
-var newGrid = make2darray(n,n)
+var newGrid = make2darray(n_width, n_height)
 newGrid = populateGrid(newGrid, 0)
 
 function setup() {
   const canvas = document.getElementById("myCanvas")
-  createCanvas(CANVAS, CANVAS, canvas);
+  createCanvas(canvasWidth, canvasHeight, canvas);
   const logElement = document.getElementById("logElement")
 }
 
 function placeSand(){ 
-  if (mouseX < CANVAS && mouseY < CANVAS){
+  if (mouseX < canvasWidth && mouseY < canvasHeight){
     const selected_row = ~~(mouseY / w)
     const selected_col = ~~(mouseX / w)
-    grid[selected_col][selected_row] = hueValue
+
+    let extend = floor(matrix/2)
+    for (let i = -extend; i < extend + matrix; i++){
+      for (let j = -extend; j < extend + matrix; j++){
+        grid[selected_col + i][selected_row + j] = hueValue
+      }
+    }
     hueChange(hueReset)
   }
 }
@@ -53,15 +62,15 @@ function mouseDragged() {
   placeSand()
 }
 
-function mousePressed() {
+function mouseIsPressed() {
   placeSand()
 }
 
 function sandFall(previousGrid, newGrid){
   for (let i = 0; i < previousGrid.length; i++){
-    if (i < 1 || i > n-2) {continue}
+    if (i < 1 || i > n_width-2) {continue}
     for (let j = 0; j < previousGrid[i].length; j++){
-      if (j > n-1) {continue}
+      if (j > n_height-1) {continue}
       if (previousGrid[i][j] == 0) {continue}
       if (newGrid[i][j+1] == 0){
         newGrid[i][j] = 0
@@ -103,7 +112,6 @@ function colourGrid(grid){
   for (let i = 0; i < grid.length; i++){
     for (let j = 0; j < grid[i].length; j++){
       if (grid[i][j] > 0) {
-        console.log(grid[i][j])
         fill(grid[i][j], 255, 255);
       } else {
         fill(backgroundColour);
@@ -117,7 +125,7 @@ function draw() {
   colorMode(HSB, 360,255,255)
   colourGrid(grid)
   grid = sandFall(grid, newGrid)
-  logElement.innerHTML = ~~hueValue.toString() + ", " + hueReset.toString()
+  logElement.innerHTML = ~~hueValue.toString() + ", " + hueReset.toString() + ", " + mouseIsPressed
 }
 
 const resetButton = document.getElementById("resetButton");
