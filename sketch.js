@@ -20,13 +20,13 @@ function populateGrid(grid, value){
   return grid 
 }
 
-var canvasHeight = 800
+var canvasHeight = 400
 var canvasWidth= 400
 var matrix = 3
-const w = 10
-const n_width = canvasWidth / w
-const n_height = canvasHeight / w
-const backgroundColour = "black";
+var w = 10
+var n_width = canvasWidth / w
+var n_height = canvasHeight / w
+var backgroundColour = "black";
 var hueValue = getRandomInt(255)
 var hueValueMultiplier = 1
 var hueReset = 1
@@ -40,7 +40,7 @@ newGrid = populateGrid(newGrid, 0)
 
 function setup() {
   const canvas = document.getElementById("myCanvas")
-  createCanvas(canvasWidth, canvasHeight, canvas);
+  p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
   const logElement = document.getElementById("logElement")
 }
 
@@ -148,3 +148,32 @@ randomColourButton.addEventListener('click', () => {
   let b = getRandomInt(255)
   sandColour = [r,g,b];
 });
+
+var canvasWidthSlider = document.getElementById("canvasWidth");
+canvasWidthSlider.oninput = function() {
+  canvasWidth = parseInt(canvasWidthSlider.value)
+  p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
+  console.log(canvasWidthSlider.value)
+  n_width = canvasWidth / w
+  n_height = canvasHeight / w
+
+  grid = make2darray(n_width, n_height)
+  grid = populateGrid(grid, 0)
+  newGrid = make2darray(n_width, n_height)
+  newGrid = populateGrid(newGrid, 0)
+}
+
+
+var canvasHeightSlider = document.getElementById("canvasHeight");
+canvasHeightSlider.oninput = function() {
+  canvasHeight = parseInt(canvasHeightSlider.value)
+  p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
+  console.log(canvasWidthSlider.value)
+  n_width = canvasWidth / w
+  n_height = canvasHeight / w
+
+  grid = make2darray(n_width, n_height)
+  grid = populateGrid(grid, 0)
+  newGrid = make2darray(n_width, n_height)
+  newGrid = populateGrid(newGrid, 0)
+}
