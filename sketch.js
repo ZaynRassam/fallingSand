@@ -28,7 +28,7 @@ function populateGrid(grid, value){
 var canvasHeight = 400
 var canvasWidth= 400
 var matrix = 3
-var w = 5
+var squareSize = 5
 var backgroundColour = "black";
 var hueValue = getRandomInt(255)
 var hueValueMultiplier = 1
@@ -44,8 +44,8 @@ var p5Canvas;
 var resetable;
 
 function createGrid(){ 
-  n_width = ~~(canvasWidth / w)
-  n_height = ~~(canvasHeight / w)
+  n_width = ~~(canvasWidth / squareSize)
+  n_height = ~~(canvasHeight / squareSize)
 
   grid = make2darray(n_width, n_height)
   grid = populateGrid(grid, 0)
@@ -63,8 +63,8 @@ function setup() {
 
 function placeSand(){ 
   if (mouseX < canvasWidth - 10 && mouseX > 10 && mouseY < canvasHeight && mouseY > 10){
-    const selected_row = ~~(mouseY / w)
-    const selected_col = ~~(mouseX / w)
+    const selected_row = ~~(mouseY / squareSize)
+    const selected_col = ~~(mouseX / squareSize)
 
     let extend = floor(matrix/2)
     for (let i = -extend; i < extend + matrix; i++){
@@ -97,7 +97,6 @@ function sandFall(previousGrid, newGrid){
       } else if (previousGrid[i+1][j+1] == 0 && previousGrid[i-1][j+1] == 0) {
           newGrid[i][j] = 0
           let direction = choose([-1,1])
-          console.log(direction)
           newGrid[i+direction][j+1] = hueValue
       } else if (previousGrid[i+1][j+1] == 0) {
           newGrid[i][j] = 0
@@ -136,7 +135,7 @@ function colourGrid(grid){
       } else {
         fill(backgroundColour);
       }
-      square(i*w,j*w,w)
+      square(i*squareSize,j*squareSize,squareSize)
     }
   }
 }
@@ -181,6 +180,13 @@ canvasWidthSlider.oninput = function() {
 var canvasHeightSlider = document.getElementById("canvasHeight");
 canvasHeightSlider.oninput = function() {
   canvasHeight = parseInt(canvasHeightSlider.value)
+  p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
+  createGrid()
+}
+
+var squareSizeSlider = document.getElementById("squareSize");
+squareSizeSlider.oninput = function() {
+  squareSize = parseInt(squareSizeSlider.value)
   p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
   createGrid()
 }

@@ -13,12 +13,31 @@
   </head>
 
   <body>
-    <div class="controlsContainer">
-      <input type="range" min="400" max="800" value="400" class="slider" id="canvasWidth">
-      <input type="range" min="400" max="800" value="400" class="slider" id="canvasHeight">
-      <button id="resetButton">Reset</button>
+    <div class="canvasAndControls">
+
+      <div class="controlsContainer">
+        <div>
+          <h3>Width</h3>
+          <input type="range" min="400" max="800" value="400" class="slider" id="canvasWidth">
+        </div>
+        <div>
+          <h3>Height</h3>
+          <input type="range" min="400" max="800" value="400" class="slider" id="canvasHeight">
+        </div>
+        <div>
+          <h3>Square Size</h3>
+          <input type="range" min="3" max="10" value="4" class="slider" id="squareSize">
+        </div>
+        <div class="resetButton">
+          <button id="resetButton">Clear</button>
+        </div>
+      </div>
+      
+      
+      <canvas id="myCanvas"></canvas>
     </div>
-    <canvas id="myCanvas"></canvas>
+
+
     <h2 id="logElement"></h2>
     <script src="sketch.js"></script>
   </body>
