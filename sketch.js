@@ -41,22 +41,24 @@ var grid;
 var newGrid;
 var canvas
 var p5Canvas;
+var resetable;
 
 function createGrid(){ 
-  n_width = canvasWidth / w
+  n_width = ~~(canvasWidth / w)
+  n_height = ~~(canvasHeight / w)
 
-  n_height = canvasHeight / w
   grid = make2darray(n_width, n_height)
   grid = populateGrid(grid, 0)
   newGrid = make2darray(n_width, n_height)
   newGrid = populateGrid(newGrid, 0)
+  resetable = false;
 }
 createGrid()
 
 function setup() {
   canvas = document.getElementById("myCanvas")
   p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
-  const logElement = document.getElementById("logElement")
+  // const logElement = document.getElementById("logElement")
 }
 
 function placeSand(){ 
@@ -69,17 +71,17 @@ function placeSand(){
       for (let j = -extend; j < extend + matrix; j++){
         if (grid[selected_col + i][selected_row + j] == 0){
           grid[selected_col + i][selected_row + j] = hueValue
+          resetable = true;
         }
       }
     }
-    
   }
 }
 function mouseDragged() {
   placeSand()
 }
 
-function mouseIsPressed() {
+function mousePressed() {
   placeSand()
 }
 
@@ -95,6 +97,7 @@ function sandFall(previousGrid, newGrid){
       } else if (previousGrid[i+1][j+1] == 0 && previousGrid[i-1][j+1] == 0) {
           newGrid[i][j] = 0
           let direction = choose([-1,1])
+          console.log(direction)
           newGrid[i+direction][j+1] = hueValue
       } else if (previousGrid[i+1][j+1] == 0) {
           newGrid[i][j] = 0
@@ -144,18 +147,29 @@ function draw() {
   colourGrid(grid)
   grid = sandFall(grid, newGrid)
   hueChange(hueReset)
-  logElement.innerHTML = ~~hueValue.toString() + ", " + hueReset.toString() + ", " + mouseIsPressed + ", " + canvasWidth
+  // logElement.innerHTML = ~~hueValue.toString() + ", " + hueReset.toString() + ", " + mouseIsPressed + ", " + canvasWidth;
+  disableResetButton()
 }
+
 
 const resetButton = document.getElementById("resetButton");
 const randomColourButton = document.getElementById("randomColourButton");
 
+function disableResetButton(){
+  if (resetable){
+    resetButton.classList.remove("disabled");
+    document.getElementById("resetButton").removeAttribute('disabled');
+
+  } else {
+    resetButton.classList.add("disabled");
+    document.getElementById("resetButton").disabled = true;
+  }
+}
+
 resetButton.addEventListener('click', () => {
-  grid = populateGrid(grid, 0);
-
-
+    grid = populateGrid(grid, 0);
+    resetable = false;
 });
-
 
 var canvasWidthSlider = document.getElementById("canvasWidth");
 canvasWidthSlider.oninput = function() {

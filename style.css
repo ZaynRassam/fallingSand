@@ -10,15 +10,16 @@ canvas {
   margin-top: 20px;
 }
 
-button {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 20px;
-  width: 20%;
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.slidecontainer {
+.controlsContainer {
   display: flex;
   justify-content: center;
+  align-content: space-between;
+  gap: 10px;
+  margin-top: 40px;
 }
