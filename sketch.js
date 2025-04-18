@@ -27,7 +27,7 @@ function populateGrid(grid, value){
 
 var canvasHeight = 400
 var canvasWidth= 400
-var matrix = 3
+var matrixSize = 3
 var squareSize = 5
 var backgroundColour = "black";
 var hueValue = getRandomInt(255)
@@ -58,7 +58,7 @@ createGrid()
 function setup() {
   canvas = document.getElementById("myCanvas")
   p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
-  // const logElement = document.getElementById("logElement")
+  const logElement = document.getElementById("logElement")
 }
 
 function placeSand(){ 
@@ -66,9 +66,9 @@ function placeSand(){
     const selected_row = ~~(mouseY / squareSize)
     const selected_col = ~~(mouseX / squareSize)
 
-    let extend = floor(matrix/2)
-    for (let i = -extend; i < extend + matrix; i++){
-      for (let j = -extend; j < extend + matrix; j++){
+    let extend = floor(matrixSize/2)
+    for (let i = -extend; i < extend + matrixSize; i++){
+      for (let j = -extend; j < extend + matrixSize; j++){
         if (grid[selected_col + i][selected_row + j] == 0){
           grid[selected_col + i][selected_row + j] = hueValue
           resetable = true;
@@ -146,7 +146,7 @@ function draw() {
   colourGrid(grid)
   grid = sandFall(grid, newGrid)
   hueChange(hueReset)
-  // logElement.innerHTML = ~~hueValue.toString() + ", " + hueReset.toString() + ", " + mouseIsPressed + ", " + canvasWidth;
+  logElement.innerHTML = `Frame rate: ${~~frameRate()}`
   disableResetButton()
 }
 
@@ -171,22 +171,45 @@ resetButton.addEventListener('click', () => {
 });
 
 var canvasWidthSlider = document.getElementById("canvasWidth");
+var canvasWidthText = document.getElementById("canvasWidthText")
 canvasWidthSlider.oninput = function() {
   canvasWidth = parseInt(canvasWidthSlider.value)
   p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
   createGrid()
+  canvasWidthText.innerHTML = "Width: " + canvasWidth + "px"
 }
+canvasWidthText.innerHTML = "Width: " + canvasWidth + "px"
+
 
 var canvasHeightSlider = document.getElementById("canvasHeight");
+var canvasHeightText = document.getElementById("canvasHeightText")
 canvasHeightSlider.oninput = function() {
   canvasHeight = parseInt(canvasHeightSlider.value)
   p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
   createGrid()
+  canvasHeightText.innerHTML = "Height: " + canvasHeight + "px"
 }
+canvasHeightText.innerHTML = "Height: " + canvasHeight + "px"
+
 
 var squareSizeSlider = document.getElementById("squareSize");
+var squareSizeText = document.getElementById("squareSizeText")
 squareSizeSlider.oninput = function() {
   squareSize = parseInt(squareSizeSlider.value)
   p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
   createGrid()
+  squareSizeText.innerHTML = "Square Size: " + squareSize + "px"
 }
+squareSizeText.innerHTML = "Square Size: " + squareSize + "px"
+
+
+var matrixSizeSlider = document.getElementById("matrixSize");
+var matrixSizeText = document.getElementById("matrixSizeText")
+matrixSizeSlider.oninput = function() {
+  matrixSize = parseInt(matrixSizeSlider.value)
+  p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
+  createGrid()
+  matrixSizeText.innerHTML = "Mateix Size: " + matrixSize
+}
+matrixSizeText.innerHTML = "Matrix Size: " + matrixSize
+

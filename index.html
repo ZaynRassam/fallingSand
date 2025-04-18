@@ -13,30 +13,28 @@
   </head>
 
   <body>
-    <div class="canvasAndControls">
-
       <div class="controlsContainer">
         <div>
-          <h3>Width</h3>
+          <h3 id="canvasWidthText">Width</h3>
           <input type="range" min="400" max="800" value="400" class="slider" id="canvasWidth">
         </div>
         <div>
-          <h3>Height</h3>
+          <h3 id="canvasHeightText">Height</h3>
           <input type="range" min="400" max="800" value="400" class="slider" id="canvasHeight">
         </div>
         <div>
-          <h3>Square Size</h3>
-          <input type="range" min="3" max="10" value="4" class="slider" id="squareSize">
+          <h3 id="squareSizeText">Square Size</h3>
+          <input type="range" min="3" max="50" value="4" class="slider" id="squareSize">
+        </div>
+        <div>
+          <h3 id="matrixSizeText">Matrix Size</h3>
+          <input type="range" min="1" max="10" value="3" class="slider" id="matrixSize">
         </div>
         <div class="resetButton">
           <button id="resetButton">Clear</button>
         </div>
       </div>
-      
-      
       <canvas id="myCanvas"></canvas>
-    </div>
-
 
     <h2 id="logElement"></h2>
     <script src="sketch.js"></script>
