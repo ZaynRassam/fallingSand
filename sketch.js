@@ -1,6 +1,11 @@
+
 function choose(choices) {
   var index = Math.floor(Math.random() * choices.length);
   return choices[index];
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
 }
 
 function make2darray(rows, cols){
@@ -23,20 +28,28 @@ function populateGrid(grid, value){
 var canvasHeight = 400
 var canvasWidth= 400
 var matrix = 3
-var w = 10
-var n_width = canvasWidth / w
-var n_height = canvasHeight / w
+var w = 5
 var backgroundColour = "black";
 var hueValue = getRandomInt(255)
 var hueValueMultiplier = 1
 var hueReset = 1
-var sandColour = [255,0,0];
 
 // grid[col][row]
-var grid = make2darray(n_width, n_height)
-grid = populateGrid(grid, 0)
-var newGrid = make2darray(n_width, n_height)
-newGrid = populateGrid(newGrid, 0)
+var n_width;
+var n_height;
+var grid;
+var newGrid;
+
+function createGrid(){ 
+  n_width = canvasWidth / w
+
+  n_height = canvasHeight / w
+  grid = make2darray(n_width, n_height)
+  grid = populateGrid(grid, 0)
+  newGrid = make2darray(n_width, n_height)
+  newGrid = populateGrid(newGrid, 0)
+}
+createGrid()
 
 function setup() {
   const canvas = document.getElementById("myCanvas")
@@ -57,7 +70,7 @@ function placeSand(){
         }
       }
     }
-    hueChange(hueReset)
+    
   }
 }
 function mouseDragged() {
@@ -128,6 +141,7 @@ function draw() {
   colorMode(HSB, 360,255,255)
   colourGrid(grid)
   grid = sandFall(grid, newGrid)
+  hueChange(hueReset)
   logElement.innerHTML = ~~hueValue.toString() + ", " + hueReset.toString() + ", " + mouseIsPressed + ", " + canvasWidth
 }
 
@@ -136,44 +150,21 @@ const randomColourButton = document.getElementById("randomColourButton");
 
 resetButton.addEventListener('click', () => {
   grid = populateGrid(grid, 0);
+
+
 });
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
-}
-
-randomColourButton.addEventListener('click', () => {
-  let r = getRandomInt(255)
-  let g = getRandomInt(255)
-  let b = getRandomInt(255)
-  sandColour = [r,g,b];
-});
 
 var canvasWidthSlider = document.getElementById("canvasWidth");
 canvasWidthSlider.oninput = function() {
   canvasWidth = parseInt(canvasWidthSlider.value)
   p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
-  console.log(canvasWidthSlider.value)
-  n_width = canvasWidth / w
-  n_height = canvasHeight / w
-
-  grid = make2darray(n_width, n_height)
-  grid = populateGrid(grid, 0)
-  newGrid = make2darray(n_width, n_height)
-  newGrid = populateGrid(newGrid, 0)
+  createGrid()
 }
-
 
 var canvasHeightSlider = document.getElementById("canvasHeight");
 canvasHeightSlider.oninput = function() {
   canvasHeight = parseInt(canvasHeightSlider.value)
   p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
-  console.log(canvasWidthSlider.value)
-  n_width = canvasWidth / w
-  n_height = canvasHeight / w
-
-  grid = make2darray(n_width, n_height)
-  grid = populateGrid(grid, 0)
-  newGrid = make2darray(n_width, n_height)
-  newGrid = populateGrid(newGrid, 0)
+  createGrid()
 }
