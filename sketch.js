@@ -39,6 +39,8 @@ var n_width;
 var n_height;
 var grid;
 var newGrid;
+var canvas
+var p5Canvas;
 
 function createGrid(){ 
   n_width = canvasWidth / w
@@ -52,7 +54,7 @@ function createGrid(){
 createGrid()
 
 function setup() {
-  const canvas = document.getElementById("myCanvas")
+  canvas = document.getElementById("myCanvas")
   p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
   const logElement = document.getElementById("logElement")
 }
