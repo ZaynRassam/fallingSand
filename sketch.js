@@ -66,16 +66,15 @@ function placeSand(){
     const selected_row = ~~(mouseY / squareSize)
     const selected_col = ~~(mouseX / squareSize)
 
-    let extend = floor(matrixSize/2)
-    for (let i = -extend; i < extend + matrixSize; i++){
-      for (let j = -extend; j < extend + matrixSize; j++){
+    for (let i = 0; i < matrixSize; i++){
+      for (let j = 0; j < matrixSize; j++){
         if (grid[selected_col + i][selected_row + j] == 0){
           grid[selected_col + i][selected_row + j] = hueValue
-          resetable = true;
         }
       }
     }
   }
+  resetable = true;
 }
 function mouseDragged() {
   placeSand()
@@ -101,7 +100,7 @@ function sandFall(previousGrid, newGrid){
       } else if (previousGrid[i+1][j+1] == 0) {
           newGrid[i][j] = 0
           newGrid[i+1][j+1] = hueValue
-      } else if (previousGrid[i-1][j+1] == 0) {
+      } else if (previousGrid[i+1][j+1] == 0) {
           newGrid[i][j] = 0
           newGrid[i-1][j+1] = hueValue
       }
@@ -157,11 +156,11 @@ const randomColourButton = document.getElementById("randomColourButton");
 function disableResetButton(){
   if (resetable){
     resetButton.classList.remove("disabled");
-    document.getElementById("resetButton").removeAttribute('disabled');
+    resetButton.removeAttribute('disabled');
 
   } else {
     resetButton.classList.add("disabled");
-    document.getElementById("resetButton").disabled = true;
+    resetButton.disabled = true;
   }
 }
 
@@ -209,7 +208,7 @@ matrixSizeSlider.oninput = function() {
   matrixSize = parseInt(matrixSizeSlider.value)
   p5Canvas = createCanvas(canvasWidth, canvasHeight, canvas);
   createGrid()
-  matrixSizeText.innerHTML = "Mateix Size: " + matrixSize
+  matrixSizeText.innerHTML = "Mateix Size: " + matrixSize + "x" + matrixSize
 }
-matrixSizeText.innerHTML = "Matrix Size: " + matrixSize
+matrixSizeText.innerHTML = "Matrix Size: " + matrixSize + "x" + matrixSize
 
